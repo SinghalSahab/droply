@@ -1,4 +1,6 @@
+'use server';
 import { Account, Avatars, Client, Databases, Storage } from "node-appwrite"
+
 import { appwriteConfig } from "./config"
 import { cookies } from "next/headers"
 
@@ -13,7 +15,7 @@ export const createSessionClient = async () =>{
         throw new Error("No session found")
     }
 
-    client.setSession(session.value)
+    client.setSession(session.value);
 
     return{
         get account(){
