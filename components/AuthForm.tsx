@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
 import Link from "next/link"
-import { createAccount } from "@/lib/actions/user.action" // Ensure correct import
+import { createAccount, signInUser } from "@/lib/actions/user.action" 
 import OTPModal from "./OTPModal"
 
 type FormType = 'sign-in' | 'sign-up'
@@ -49,12 +49,10 @@ const form = useForm<z.infer<typeof formSchema>>({
     setIsLoading(true)
     setErrorMessage('');
     try {
-      console.log("onsubmit")
-      const user = await createAccount({
+      const user = type === 'sign-up' ? await createAccount({
         fullName: values.fullName || "",
         email: values.email
-      })
-      console.log("after create account",user)
+      }) : await signInUser({email: values.email})
       setAccountId(user.accountId)
     } catch (error) {
       setErrorMessage("failed to create account")
